@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Bookpy Project
 
 Bookpy is a PHP web application designed for managing bookings. It features a public booking page, an admin panel for managing bookings, and an email notification system to keep users informed.
@@ -89,7 +88,3 @@ Contributions are welcome! Please submit a pull request or open an issue for any
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-=======
-# bookpy
-Simple booking system for small/medium organisation
->>>>>>> a61009db5e9da4e5419b93366d5bfbb6902d2691
