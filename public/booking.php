@@ -7,35 +7,6 @@
   <title>bookpy — Book</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="/css/style.css">
-  <style>
-    :root{
-      --bg:#f6f8fb; --card:#ffffff; --accent:#5561f2; --muted:#6b7280;
-      --radius:12px; --maxw:720px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);font-family:Inter,system-ui,Arial,sans-serif;color:#0f172a}
-    .wrap{max-width:var(--maxw);margin:40px auto;padding:20px}
-    .card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:0 8px 30px rgba(18,38,63,0.06)}
-    h1{margin:0 0 6px;font-size:22px}
-    p.lead{margin:0 0 18px;color:var(--muted);font-size:14px}
-    form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media(max-width:640px){ form{grid-template-columns:1fr} .actions{grid-column:1/-1} }
-    label{display:block;font-size:13px;color:#344054;margin-bottom:6px}
-    .field{display:block}
-    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="time"], textarea {
-      width:100%;padding:12px;border:1px solid #e6e9ef;border-radius:8px;background:#fff;color:#0f172a;font-size:14px;
-    }
-    input:focus, textarea:focus{outline:none;box-shadow:0 6px 18px rgba(85,97,242,0.08);border-color:var(--accent)}
-    .full { grid-column:1/-1; }
-    .actions { display:flex;gap:12px;align-items:center;justify-content:flex-start }
-    button.primary { background:var(--accent);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-weight:600;cursor:pointer }
-    button.primary:hover{filter:brightness(.95)}
-    a.secondary { color:var(--muted);text-decoration:none;font-size:14px }
-    .note { font-size:13px;color:var(--muted);margin-top:8px }
-    .success { background:#ecfdf5;color:#0f5132;padding:10px;border-radius:8px;margin-bottom:12px;border:1px solid #d1fae5 }
-    .error { background:#fff1f2;color:#60142b;padding:10px;border-radius:8px;margin-bottom:12px;border:1px solid #fecaca }
-    .meta { margin-top:14px;font-size:13px;color:var(--muted) }
-  </style>
 </head>
 <body>
   <div class="wrap">

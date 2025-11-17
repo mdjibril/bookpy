@@ -6,33 +6,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>bookpy — Home</title>
   <link rel="stylesheet" href="/css/style.css">
-  <style>
-    :root{
-      --bg:#f6f8fb; --card:#ffffff; --accent:#5561f2; --muted:#6b7280;
-      --maxw:1100px;
-      --radius:12px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:var(--bg);color:#111}
-    .wrap{max-width:var(--maxw);margin:32px auto;padding:24px}
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:center}
-    @media(max-width:900px){.hero{grid-template-columns:1fr;}}
-    .card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 6px 20px rgba(16,24,40,0.06)}
-    .title{font-size:28px;margin:0 0 8px}
-    .lead{color:var(--muted);margin:0 0 18px}
-    .cta{display:inline-block;padding:12px 18px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none;font-weight:600}
-    .cta:hover{filter:brightness(.95)}
-    .calendar-placeholder{height:360px;border-radius:10px;border:1px dashed #e6e9ef;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:18px;background:linear-gradient(180deg,#fff, #fbfdff)}
-    .side { display:flex;flex-direction:column;gap:14px }
-    .stat { display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:linear-gradient(90deg,#fbfbff,#fff); }
-    .stat .label{color:var(--muted);font-size:13px}
-    .stat .value{font-weight:700;color:#111}
-    .list {margin-top:12px}
-    .list-item{padding:10px;border-radius:8px;border:1px solid #f0f2f7;margin-bottom:8px;background:#fff;display:flex;justify-content:space-between;align-items:center}
-    footer{max-width:var(--maxw);margin:28px auto 60px;padding:0 24px;color:var(--muted);font-size:13px;text-align:center}
-    a.inline{color:var(--accent);text-decoration:none}
-  </style>
-  <!-- How can I refactor my repositories to share a single database connection? -->
 </head>
 <body>
   <div class="wrap">
