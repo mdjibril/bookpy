@@ -27,7 +27,7 @@ Connect to your server via SSH and clone the project repository into your desire
 
 ```bash
 git clone https://github.com/mdjibril/bookpy.git /var/www/bookpy.your-domain.com
-cd /var/www/bookpy
+cd /var/www/bookpy.your-domain.com
 ```
 
 ### Step 2: Install Dependencies

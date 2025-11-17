@@ -27,21 +27,21 @@ bookpy
 │   │   └── Admin
 │   │       └── AdminController.php
 │   ├── Models
-│   │   ├── Booking.php
-│   │   └── User.php
+│   │   ├── Booking.php 
+│   │   └── User.php 
 │   ├── Services
 │   │   ├── EmailService.php
 │   │   └── NotificationService.php
 │   ├── Repositories
 │   │   └── BookingRepository.php
-│   └── Routes
-│       └── web.php
-├── templates
-│   ├── public
-│   │   └── booking.twig
-│   └── admin
-│       ├── dashboard.twig
-│       └── bookings.twig
+│   ├── Routes
+│   │   └── web.php
+│   └── views
+│       ├── public
+│       │   └── booking.twig
+│       └── admin
+│           ├── dashboard.twig
+│           └── bookings.twig
 ├── config
 │   ├── config.php
 │   └── services.php
@@ -72,8 +72,11 @@ bookpy
    ```
 4. Configure your environment variables by copying `.env.example` to `.env` and updating the values accordingly.
 5. Run the database migrations:
-   ```
-   php artisan migrate
+   ```bash
+   # Log in to your MySQL client
+   mysql -u your_db_user -p your_db_name < migrations/0001_create_bookings_table.sql
+   mysql -u your_db_user -p your_db_name < migrations/0002_create_email_templates_table.sql
+   # ...and so on for all migration files.
    ```
 
 ## Usage
@@ -88,3 +91,7 @@ Contributions are welcome! Please submit a pull request or open an issue for any
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Start Local server
+
+php -S localhost:8000 -t public
