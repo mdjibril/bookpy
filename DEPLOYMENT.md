@@ -17,16 +17,16 @@ Ensure your server meets the following requirements:
 
 ---
 
-## 2. Deployment Steps
+## 2. Deployment on a VPS or Dedicated Server
 
-Follow these steps to deploy the application.
+This method is recommended if you have root access to your server and can configure Apache or Nginx directly.
 
 ### Step 1: Clone the Repository
 
 Connect to your server via SSH and clone the project repository into your desired directory (e.g., `/var/www/bookpy`).
 
 ```bash
-git clone https://github.com/mdjibril/booker.git /var/www/bookpy
+git clone https://github.com/mdjibril/bookpy.git /var/www/bookpy.your-domain.com
 cd /var/www/bookpy
 ```
 
