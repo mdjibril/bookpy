@@ -77,10 +77,12 @@ FLUSH PRIVILEGES;
 Run the SQL migration files to create the necessary tables. You should run these in order.
 
 ```bash
-mysql -u bookpy_user -p bookpy < migrations/0001_create_bookings_table.sql
-mysql -u bookpy_user -p bookpy < migrations/0002_create_email_templates_table.sql
-mysql -u bookpy_user -p bookpy < migrations/0003_create_email_template_versions_table.sql
-mysql -u bookpy_user -p bookpy < migrations/0004_add_cancellation_token_to_bookings.sql
+
+mysql -u skillsfu_bookpy -p --skip-ssl skillsfu_bookpy < migrations/0001_create_bookings_table.sql
+mysql -u skillsfu_bookpy -p --skip-ssl skillsfu_bookpy < migrations/0002_recreate_bookings_table.sql
+mysql -u skillsfu_bookpy -p --skip-ssl skillsfu_bookpy < migrations/0003_create_email_templates_table.sql
+mysql -u skillsfu_bookpy -p --skip-ssl skillsfu_bookpy < migrations/0003_seed_bookings.sql
+mysql -u skillsfu_bookpy -p --skip-ssl skillsfu_bookpy < migrations/0004_add_cancellation_token_to_bookings.sql
 ```
 
 ### Step 6: Configure the Web Server
@@ -145,6 +147,73 @@ Enable the site by creating a symbolic link:
 sudo ln -s /etc/nginx/sites-available/bookpy /etc/nginx/sites-enabled/
 sudo systemctl restart nginx
 ```
+
+---
+
+## 3. Deployment on Shared Hosting (e.g., cPanel)
+
+This method is for environments where you cannot change the web server's "document root" to the `public/` directory. This is common on shared hosting plans, especially when deploying to a subdomain.
+
+### Step 1: Clone the Repository
+
+Connect to your server via SSH and navigate to the root directory of your subdomain (e.g., `public_html/bookpy.skillsfusionnetwork.com`).
+
+Clone the repository's contents directly into this folder. **Note the `.` at the end of the command.**
+
+```bash
+# Navigate to your subdomain's root folder
+cd /home/your_user/public_html/your-subdomain.com
+
+# Clone the project files into the current directory
+git clone https://github.com/mdjibril/bookpy.git .
+```
+
+### Step 2: Install Dependencies & Configure Environment
+
+Follow the same steps as the VPS deployment for installing dependencies and setting up your `.env` file.
+
+```bash
+# Install dependencies
+composer install --no-dev --optimize-autoloader
+
+# Create and edit environment file
+cp .env.example .env
+nano .env
+```
+
+### Step 3: Set Up Database and Run Migrations
+
+Use your hosting provider's control panel (like cPanel's "MySQL Databases") to create the database and user. Then, run the migrations via SSH as described in the VPS guide (Step 5).
+
+### Step 4: Secure the Directory with `.htaccess`
+
+This is the most critical step for shared hosting. You must create a `.htaccess` file in your subdomain's root directory to protect sensitive files and route all requests to the `public/` folder.
+
+Create the file:
+```bash
+nano .htaccess
+```
+
+Paste the following content into the file. This configuration does two things:
+1.  Redirects all web traffic to the `public` directory.
+2.  Blocks web access to sensitive files and folders like `.env` and `.git`.
+
+```apache
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Specify the default file to serve in a directory
+    DirectoryIndex index.php
+
+    # Block access to files and directories starting with a dot (e.g., .env, .git)
+    RewriteRule "(^|/)\." - [F]
+
+    # Rewrite all requests to the public directory
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+```
+
+Save and close the editor (`Ctrl+X`, then `Y`, then `Enter` in nano).
 
 ---
 
