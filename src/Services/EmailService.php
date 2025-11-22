@@ -9,7 +9,7 @@ class EmailService
     protected ?string $resendApiKey;
     protected array $config;
 
-    public function __construct(array $config = null)
+    public function __construct(?array $config = null)
     {
         $this->config = $config ?? [];
         // Determine mode: terminal (dev), resend (Resend API) or smtp

@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Specify the default file to serve in a directory
+    DirectoryIndex index.php
+
+    # Block access to files and directories starting with a dot (e.g., .env, .git)
+    RewriteRule "(^|/)\." - [F]
+
+    # Rewrite all requests to the public directory
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

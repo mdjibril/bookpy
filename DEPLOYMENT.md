@@ -187,11 +187,16 @@ Use your hosting provider's control panel (like cPanel's "MySQL Databases") to c
 
 ### Step 4: Secure the Directory with `.htaccess`
 
-This is the most critical step for shared hosting. You must create a `.htaccess` file in your subdomain's root directory to protect sensitive files and route all requests to the `public/` folder.
+This is the most critical step for shared hosting. It requires **two** `.htaccess` files to properly secure the application and route requests.
 
-Create the file:
+#### File 1: Root `.htaccess`
+
+Create a `.htaccess` file in your subdomain's root directory (e.g., `/home/your_user/public_html/your-subdomain.com/.htaccess`).
+
+This file's only purpose is to redirect all traffic to the `public/` directory.
+
 ```bash
-nano .htaccess
+nano .htaccess # In the project root
 ```
 
 Paste the following content into the file. This configuration does two things:
