@@ -35,77 +35,23 @@ class BookingRepository
             return false;
         }
 
-        try {
-            // Prefer canonical schema if available
-            if ($this->hasColumn('name') && $this->hasColumn('email') && $this->hasColumn('date') && $this->hasColumn('time')) {
-                error_log("BookingRepository create: using canonical columns");
-                $token = bin2hex(random_bytes(32)); // Generate a secure token
-                $stmt = $this->pdo->prepare(
-                    "INSERT INTO bookings (name, email, phone, date, time, status, cancellation_token, created_at) 
-                     VALUES (:name, :email, :phone, :date, :time, :status, :cancellation_token, NOW())"
-                );
-                $ok = $stmt->execute([
-                    ':name'   => $data['name'] ?? null,
-                    ':email'  => $data['email'] ?? null,
-                    ':phone'  => $data['phone'] ?? null,
-                    ':date'   => $data['date'] ?? null,
-                    ':time'   => $data['time'] ?? null,
-                    ':status' => $data['status'] ?? 'pending',
-                    ':cancellation_token' => $token,
-                ]);
-                if ($ok) {
-                    error_log("BookingRepository create succeeded (canonical)");
-                } else {
-                    error_log("BookingRepository create failed (canonical): " . json_encode($stmt->errorInfo()));
-                }
-                return (bool)$ok;
-            }
-
-            // Fallback to legacy schema with booking_date / user_id
-            if ($this->hasColumn('booking_date')) {
-                error_log("BookingRepository create: using legacy booking_date column");
-                $bookingDate = null;
-                if (!empty($data['date']) && !empty($data['time'])) {
-                    $bookingDate = $data['date'] . ' ' . $data['time'];
-                } elseif (!empty($data['date'])) {
-                    $bookingDate = $data['date'] . ' 00:00:00';
-                } else {
-                    $bookingDate = date('Y-m-d H:i:s');
-                }
-
-                // attempt to insert with user_id if present (leave NULL if unknown)
-                if ($this->hasColumn('user_id')) {
-                    $stmt = $this->pdo->prepare(
-                        "INSERT INTO bookings (user_id, booking_date, created_at) VALUES (:user_id, :booking_date, NOW())"
-                    );
-                    $ok = $stmt->execute([
-                        ':user_id' => $data['user_id'] ?? null,
-                        ':booking_date' => $bookingDate,
-                    ]);
-                } else {
-                    $stmt = $this->pdo->prepare(
-                        "INSERT INTO bookings (booking_date, created_at) VALUES (:booking_date, NOW())"
-                    );
-                    $ok = $stmt->execute([
-                        ':booking_date' => $bookingDate,
-                    ]);
-                }
-
-                if ($ok) {
-                    error_log("BookingRepository create succeeded (legacy)");
-                } else {
-                    error_log("BookingRepository create failed (legacy): " . json_encode($stmt->errorInfo()));
-                }
-                return (bool)$ok;
-            }
-
-            // No recognizable schema
-            error_log("BookingRepository create: no suitable columns found");
-            return false;
-        } catch (\Exception $e) {
-            error_log("BookingRepository create error: " . $e->getMessage());
-            return false;
-        }
+        // The PDO object is set to throw exceptions on error, so we can wrap this.
+        // The controller will catch it and display the debug info.
+        $token = bin2hex(random_bytes(32)); // Generate a secure token
+        $stmt = $this->pdo->prepare(
+            "INSERT INTO bookings (name, email, phone, date, time, notes, status, cancellation_token, created_at, updated_at) 
+             VALUES (:name, :email, :phone, :date, :time, :notes, :status, :cancellation_token, NOW(), NOW())"
+        );
+        return $stmt->execute([
+            ':name'   => $data['name'] ?? null,
+            ':email'  => $data['email'] ?? null,
+            ':phone'  => $data['phone'] ?? null,
+            ':date'   => $data['date'] ?? null,
+            ':time'   => $data['time'] ?? null,
+            ':notes'  => $data['notes'] ?? null,
+            ':status' => $data['status'] ?? 'pending',
+            ':cancellation_token' => $token,
+        ]);
     }
 
     public function findAll(): array

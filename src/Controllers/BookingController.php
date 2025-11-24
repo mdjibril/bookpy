@@ -25,56 +25,60 @@ class BookingController
      */
     public function createBooking(): void
     {
-        // ensure session started
-        if (session_status() === PHP_SESSION_NONE) session_start();
+        try {
+            if (session_status() === PHP_SESSION_NONE) session_start();
+            $post = $_POST;
 
-        $post = $_POST;
+            if (!CSRF::validate($post['csrf_token'] ?? null)) {
+                throw new \Exception('Invalid session token. Please reload the page and try again.');
+            }
 
-        // CSRF check
-        if (!CSRF::validate($post['csrf_token'] ?? null)) {
-            $_SESSION['booking_old'] = $post;
-            $_SESSION['booking_error'] = 'Invalid session token. Please reload the page and try again.';
-            header('Location: /booking');
-            exit;
-        }
+            $errors = Validator::validateBooking($post);
+            if (!empty($errors)) {
+                throw new \Exception(implode(' ', array_values($errors)));
+            }
 
-        // validate inputs
-        $errors = Validator::validateBooking($post);
-        if (!empty($errors)) {
-            $_SESSION['booking_old'] = $post;
-            $_SESSION['booking_error'] = implode(' ', array_values($errors));
-            header('Location: /booking');
-            exit;
-        }
+            $data = [
+                'name' => Validator::sanitizeString($post['name'] ?? ''),
+                'email' => Validator::sanitizeString($post['email'] ?? ''),
+                'phone' => Validator::sanitizeString($post['phone'] ?? ''),
+                'date' => Validator::sanitizeString($post['date'] ?? ''),
+                'time' => Validator::sanitizeString($post['time'] ?? ''),
+                'notes' => Validator::sanitizeString($post['notes'] ?? ''),
+                'status' => 'pending',
+            ];
 
-        // prepare clean data
-        $data = [
-            'name' => Validator::sanitizeString($post['name'] ?? ''),
-            'email' => Validator::sanitizeString($post['email'] ?? ''),
-            'phone' => Validator::sanitizeString($post['phone'] ?? ''),
-            'date' => Validator::sanitizeString($post['date'] ?? ''),
-            'time' => Validator::sanitizeString($post['time'] ?? ''),
-            'notes' => Validator::sanitizeString($post['notes'] ?? ''),
-            'status' => 'pending',
-        ];
+            if (!$this->bookingRepository->create($data)) {
+                throw new \Exception('The booking repository failed to create the booking. Check database connection and query.');
+            }
 
-        if ($this->bookingRepository->create($data)) {
             // Send notification to admin
             $this->sendAdminNotification($data);
-
             // Send acknowledgement to user
             $this->sendUserAcknowledgementEmail($data);
 
-            // Reset CSRF token and set success message
             CSRF::resetToken();
             $_SESSION['booking_success'] = 'Booking submitted. You will receive a confirmation email shortly.';
             header('Location: /booking');
-        } else {
+            exit;
+        } catch (\Exception $e) {
+            // Immediately display the real error and stop for debugging
+            http_response_code(500);
+            echo "<h1>An error occurred:</h1>";
+            echo "<h2>" . htmlspecialchars($e->getMessage()) . "</h2>";
+            echo "<strong>File:</strong> " . $e->getFile() . "<br>";
+            echo "<strong>Line:</strong> " . $e->getLine() . "<br>";
+            echo "<pre><strong>Trace:</strong><br>" . htmlspecialchars($e->getTraceAsString()) . "</pre>";
+            die();
+
+            // Original code for production
+            /*
             $_SESSION['booking_old'] = $post;
             $_SESSION['booking_error'] = 'Failed to create booking. Please try again later.';
             header('Location: /booking');
+            exit;
+            */
         }
-        exit;
     }
 
     private function sendAdminNotification(array $bookingData): void
