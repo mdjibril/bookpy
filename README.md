@@ -1,3 +1,5 @@
+![FRONT PAGE](/home/mdjibril/Github/booker/bookpy/bookpy.png)
+
 # Bookpy Project
 
 Bookpy is a PHP web application designed for managing bookings. It features a public booking page, an admin panel for managing bookings, and an email notification system to keep users informed.
@@ -42,14 +44,8 @@ bookpy
 │       └── admin
 │           ├── dashboard.twig
 │           └── bookings.twig
-├── config
-│   ├── config.php
-│   └── services.php
 ├── migrations
 │   └── 0001_create_bookings_table.sql
-├── tests
-│   ├── Controllers
-│   └── Services
 ├── composer.json
 ├── phpunit.xml
 ├── .env.example
