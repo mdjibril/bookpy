@@ -1,4 +1,8 @@
 <?php
+// TEMPORARY DEBUGGING: Force display of all errors
+/* ini_set('display_errors', 1); */
+/* ini_set('display_startup_errors', 1); */
+/* error_reporting(E_ALL); */
 
 // Define a constant for the project root directory
 define('PROJECT_ROOT', dirname(__DIR__));
