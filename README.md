@@ -1,4 +1,4 @@
-![FRONT PAGE](/home/mdjibril/Github/booker/bookpy/bookpy.png)
+![FRONT PAGE](bookpy.png)
 
 # Bookpy Project
 
