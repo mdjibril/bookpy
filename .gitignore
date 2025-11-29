@@ -1,0 +1,58 @@
+# Composer / PHP
+/vendor/
+/composer.lock        # keep if you want reproducible installs; remove this line if you commit it
+
+# Environment / secrets
+.env
+.env.*.local
+.env.local
+
+# Build / runtime artifacts
+/.phpunit.result.cache
+/.phpunit.cache
+/.phpunit-watcher
+/coverage/
+/build/
+/dist/
+/tmp/
+/node_modules/
+
+# Generated files
+/public/storage/
+/storage/
+/uploads/
+/*.log
+*.sql
+*.sqlite
+*.sqlite3
+*.db
+
+# IDEs / editors
+/.idea/
+/.vscode/
+/*.iml
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Tests / CI
+/.cache/
+/phpunit.xml.cache
+
+# Optional: ignore generated PDFs, mail dumps, session files
+/public/pdfs/
+/mail.log
+/sessions/
+
+# Keep this file tracked
+!.gitignore
