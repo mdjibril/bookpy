@@ -1,6 +1,6 @@
 # Composer / PHP
 /vendor/
-/composer.lock        # keep if you want reproducible installs; remove this line if you commit it
+# /composer.lock        # keep if you want reproducible installs; remove this line if you commit it
 
 # Environment / secrets
 .env
