@@ -1,0 +1,17 @@
+DROP TABLE IF EXISTS `bookings`;
+
+CREATE TABLE `bookings` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `phone` VARCHAR(50) DEFAULT NULL,
+  `date` DATE NOT NULL,
+  `time` TIME NOT NULL,
+  `status` ENUM('pending','confirmed','cancelled') NOT NULL DEFAULT 'pending',
+  `notes` TEXT DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX (`email`),
+  INDEX (`status`),
+  INDEX (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
